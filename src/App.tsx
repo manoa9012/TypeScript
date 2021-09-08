@@ -1,26 +1,12 @@
-import { Counter } from "./components/Counter";
-import { Usario } from "./components/Usario";
-
-import { TimePadre } from "./components/TimePadre";
-import { ContadorRed } from "./components/ContadorRed";
+import { useFetch } from "./components/Prueba";
+const JOKE_URL = "https://icanhazdadjoke.com/";
 
 function App() {
-  return (
-    <div className="container">
-      <h1>HOla Mundo</h1>
-      <hr />
-      <Counter />
-      <hr />
-      <Usario />
-      <hr />
-      <h2>useEffect - useRef</h2>
-      <hr />
-      <TimePadre />
-      <h2>useReducer</h2>
-      <hr />
-      <ContadorRed />
-    </div>
-  );
+  const { state, data, error } = useFetch(JOKE_URL);
+  if (state === "loading") return <div>Loading...</div>;
+  if (state === "error") return <div>Error:{error?.message}</div>;
+  if (state === "data") return <div>{data?.joke}</div>;
+  throw new Error("this should never happen.");
 }
 
 export default App;
